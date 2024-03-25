@@ -18,4 +18,34 @@ public class Employee {
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Station station;
+
+    public Employee(String name, Station station) {
+        this.name = name;
+        this.station = station;
+    }
+
+    public Employee(String name) {
+        this(name, null);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Station getStation() {
+        return station;
+    }
+
+    public void setStation(Station station) {
+        this.station = station;
+    }
+
 }
