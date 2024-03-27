@@ -19,13 +19,21 @@ public class Employee {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Station station;
 
-    public Employee(String name, Station station) {
+    public Employee(long id, String name, Station station) {
+        this.id = id;
         this.name = name;
         this.station = station;
     }
 
+    public Employee(String name, Station station) {
+        this(0, name, station);
+    }
+
     public Employee(String name) {
         this(name, null);
+    }
+
+    public Employee() {
     }
 
     public long getId() {
