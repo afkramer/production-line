@@ -32,21 +32,21 @@ class EmployeeServiceIntegrationTest {
     @Test
     void saveEmployeeWithoutStationSuccess() {
         long employeeCount = this.employeeRepository.count();
-        NewEmployeeRequest request = new NewEmployeeRequest("Norma", null);
+        Employee request = new Employee("Norma", null);
 
-        EmployeeResponse response = this.employeeService.saveEmployee(request);
+        Employee response = this.employeeService.saveEmployee(request);
 
         Assertions.assertNotNull(response);
         Assertions.assertEquals(employeeCount + 1, this.employeeRepository.count());
-        Assertions.assertTrue(response.id() > 0);
-        Assertions.assertEquals("Norma", response.name());
-        Assertions.assertNull(response.station());
+        Assertions.assertTrue(response.getId() > 0);
+        Assertions.assertEquals("Norma", response.getName());
+        Assertions.assertNull(response.getStation());
     }
 
     @Test
     void saveEmployeeWithoutStationFailure() {
         long employeeCount = this.employeeRepository.count();
-        NewEmployeeRequest request = new NewEmployeeRequest(existingName, null);
+        Employee request = new Employee(existingName, null);
 
         Assertions.assertThrows(CannotSaveObjectException.class, () -> this.employeeService.saveEmployee(request));
         Assertions.assertEquals(employeeCount, this.employeeRepository.count());
@@ -56,16 +56,16 @@ class EmployeeServiceIntegrationTest {
     void getAllEmployeesSuccess() {
         long employeeCount = this.employeeRepository.count();
 
-        List<EmployeeResponse> results = this.employeeService.getAllEmployees();
+        List<Employee> results = this.employeeService.getAllEmployees();
         Assertions.assertEquals(employeeCount, results.size());
     }
 
     @Test
     void getEmployeeByIdSuccess() {
-        EmployeeResponse response = this.employeeService.getEmployeeById(this.existingEmployee.getId());
+        Employee response = this.employeeService.getEmployeeById(this.existingEmployee.getId());
 
         Assertions.assertNotNull(response);
-        Assertions.assertEquals(existingEmployee.getName(), response.name());
+        Assertions.assertEquals(existingEmployee.getName(), response.getName());
     }
 
 }
