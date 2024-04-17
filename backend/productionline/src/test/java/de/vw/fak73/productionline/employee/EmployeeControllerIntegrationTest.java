@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -42,5 +43,25 @@ public class EmployeeControllerIntegrationTest {
         Assertions.assertEquals(count + 1, this.employeeRepository.count());
         Assertions.assertEquals(maxId + 1, response.getBody().getId());
         Assertions.assertEquals(name, response.getBody().getName());
+        Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    }
+
+    @Test
+    void getEmployeeByIdSuccessTest() {
+        String name = "New Newbie";
+        Employee newEmployee = new Employee(name, null);
+        Employee savedEmployee = this.employeeRepository.save(newEmployee);
+
+        ResponseEntity<Employee> response = restTemplate
+                .getForEntity(String.format("/employees/%d", savedEmployee.getId()), Employee.class);
+        Employee returnedEmployee = response.getBody();
+
+        System.out.println(String.format("Response body: %s, name: %s, id: %d", returnedEmployee,
+                returnedEmployee.getName(), returnedEmployee.getId()));
+
+        Assertions.assertNotNull(response.getBody());
+        Assertions.assertInstanceOf(Employee.class, response.getBody());
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+        Assertions.assertEquals(savedEmployee, response.getBody());
     }
 }
