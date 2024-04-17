@@ -17,7 +17,7 @@ public class EmployeeServiceTest {
     private EmployeeServiceImpl employeeService;
 
     void testCreateSuccessNoStation() {
-        EmployeeRequest request = new EmployeeRequest("Norma", null);
+        NewEmployeeRequest request = new NewEmployeeRequest("Norma", null);
         Employee employee = new Employee(1l, "Norma", null);
 
         Mockito.when(employeeRepository.save(employee)).thenReturn(employee);

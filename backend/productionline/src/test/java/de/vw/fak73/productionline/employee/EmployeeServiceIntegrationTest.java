@@ -32,7 +32,7 @@ class EmployeeServiceIntegrationTest {
     @Test
     void saveEmployeeWithoutStationSuccess() {
         long employeeCount = this.employeeRepository.count();
-        EmployeeRequest request = new EmployeeRequest("Norma", null);
+        NewEmployeeRequest request = new NewEmployeeRequest("Norma", null);
 
         EmployeeResponse response = this.employeeService.saveEmployee(request);
 
@@ -46,7 +46,7 @@ class EmployeeServiceIntegrationTest {
     @Test
     void saveEmployeeWithoutStationFailure() {
         long employeeCount = this.employeeRepository.count();
-        EmployeeRequest request = new EmployeeRequest(existingName, null);
+        NewEmployeeRequest request = new NewEmployeeRequest(existingName, null);
 
         Assertions.assertThrows(CannotSaveObjectException.class, () -> this.employeeService.saveEmployee(request));
         Assertions.assertEquals(employeeCount, this.employeeRepository.count());
@@ -67,4 +67,5 @@ class EmployeeServiceIntegrationTest {
         Assertions.assertNotNull(response);
         Assertions.assertEquals(existingEmployee.getName(), response.name());
     }
+
 }

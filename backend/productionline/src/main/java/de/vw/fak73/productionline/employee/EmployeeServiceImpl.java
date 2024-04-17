@@ -17,7 +17,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    private Employee employeeRequestToEmployee(EmployeeRequest request) {
+    private Employee employeeRequestToEmployee(NewEmployeeRequest request) {
         return new Employee(request.name(), request.station());
     }
 
@@ -26,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeResponse saveEmployee(EmployeeRequest request) {
+    public EmployeeResponse saveEmployee(NewEmployeeRequest request) {
         Optional<Employee> optional = this.employeeRepository.findByName(request.name());
         if (optional.isPresent()) {
             throw new CannotSaveObjectException(String.format(
