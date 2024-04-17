@@ -17,51 +17,47 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    private Employee employeeRequestToEmployee(NewEmployeeRequest request) {
-        return new Employee(request.name(), request.station());
-    }
-
-    private EmployeeResponse employeeToEmployeeResponse(Employee employee) {
-        return new EmployeeResponse(employee.getId(), employee.getName(), employee.getStation());
-    }
-
     @Override
-    public EmployeeResponse saveEmployee(NewEmployeeRequest request) {
-        Optional<Employee> optional = this.employeeRepository.findByName(request.name());
+    public Employee saveEmployee(Employee request) {
+        Optional<Employee> optional = this.employeeRepository.findByName(request.getName());
         if (optional.isPresent()) {
             throw new CannotSaveObjectException(String.format(
-                    "Could not save requested employee. Employee with name %s already exists.", request.name()));
+                    "Could not save requested employee. Employee with name %s already exists.", request.getName()));
         }
-        Employee employee = employeeRequestToEmployee(request);
-        Employee newEmployee = this.employeeRepository.save(employee);
-        return employeeToEmployeeResponse(newEmployee);
+        return this.employeeRepository.save(request);
     }
 
     @Override
-    public List<EmployeeResponse> getAllEmployees() {
-        return this.employeeRepository.findAll().stream().map(this::employeeToEmployeeResponse).toList();
+    public List<Employee> getAllEmployees() {
+        return this.employeeRepository.findAll();
     }
 
     @Override
-    public EmployeeResponse getEmployeeById(long id) {
+    public Employee getEmployeeById(long id) {
         Optional<Employee> optional = this.employeeRepository.findById(id);
         if (optional.isEmpty()) {
             throw new ObjectNotFoundException(String.format("Employee with id %d not found.", id));
         }
 
-        return employeeToEmployeeResponse(optional.get());
+        return optional.get();
     }
 
     @Override
-    public EmployeeResponse updateEmployee(Employee employee) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateEmployee'");
+    public Employee updateEmployee(Employee employee) {
+        Optional<Employee> optional = this.employeeRepository.findById(employee.getId());
+        if (optional.isEmpty()) {
+            throw new ObjectNotFoundException(String.format("Employee with id %d not found.", employee.getId()));
+        }
+        return this.employeeRepository.save(employee);
     }
 
     @Override
     public void deleteEmployee(Employee employee) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteEmployee'");
+        Optional<Employee> optional = this.employeeRepository.findById(employee.getId());
+        if (optional.isEmpty()) {
+            throw new ObjectNotFoundException(String.format("Employee with id %d not found.", employee.getId()));
+        }
+        this.employeeRepository.delete(employee);
     }
 
 }

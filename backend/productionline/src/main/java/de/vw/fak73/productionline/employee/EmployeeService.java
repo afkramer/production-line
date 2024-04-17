@@ -3,13 +3,13 @@ package de.vw.fak73.productionline.employee;
 import java.util.List;
 
 public interface EmployeeService {
-    EmployeeResponse saveEmployee(NewEmployeeRequest request);
+    Employee saveEmployee(Employee request);
 
-    List<EmployeeResponse> getAllEmployees();
+    List<Employee> getAllEmployees();
 
-    EmployeeResponse getEmployeeById(long id);
+    Employee getEmployeeById(long id);
 
-    EmployeeResponse updateEmployee(Employee employee);
+    Employee updateEmployee(Employee employee);
 
     void deleteEmployee(Employee employee);
 }
