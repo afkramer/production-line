@@ -1,3 +1,18 @@
+import { useCallback, useState } from 'react';
+
 export const EmployeeDisplay = () => {
-  return <h1>Available Employees</h1>;
+  const [name, setName] = useState<string>('');
+
+  const handleSave = useCallback(() => {});
+
+  return (
+    <>
+      <h1>Employees</h1>
+      <h2>Add an Employee</h2>
+      <div>
+        <label>Name:</label>
+        <input onChange={(e) => setName(e.currentTarget.value)} value={name}></input>
+      </div>
+    </>
+  );
 };
