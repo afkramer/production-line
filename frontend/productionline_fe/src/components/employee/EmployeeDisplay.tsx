@@ -1,9 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 export const EmployeeDisplay = () => {
   const [name, setName] = useState<string>('');
-
-  const handleSave = useCallback(() => {});
 
   return (
     <>
